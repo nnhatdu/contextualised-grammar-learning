@@ -1,0 +1,676 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Áp dụng Contextualized Learning vào việc học ngữ pháp tiếng Anh</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8601da55-b2f3-41bb-aea6-fb09acbeeede" class="page sans"><header><h1 class="page-title"><strong>Áp dụng Contextualized Learning vào việc học ngữ pháp tiếng Anh</strong></h1><p class="page-description"></p></header><div class="page-body"><p id="23e70484-38a8-4039-b47a-63e1124f9cd5" class="">Học ngôn ngữ là hành trình phức tạp, đòi hỏi sự tương tác chủ động và đối mặt với nhiều tác động khác nhau. Contextualized Learning, hay học thông qua ngữ cảnh thực tế, đóng vai trò quan trọng trong sự phát triển ngôn ngữ.</p><p id="d0e8873a-4350-4126-8a2e-ee28abfedc9f" class="">Bài viết này khám phá sự phức tạp của tương tác giữa ngữ cảnh và ngôn ngữ, và phân tích cách tín hiệu ngữ cảnh ảnh hưởng đến việc nắm bắt ngữ pháp. Ngoài ra, đề cập đến các bài thực hành cụ thể như biến đổi câu, phát triển câu, và tự sửa lỗi, giúp học viên trải nghiệm việc thực hành ngữ pháp một cách sáng tạo và thú vị.</p><p id="132903e0-478e-4a61-b69a-8585f1a11a28" class=""><strong>Key Takeaways</strong></p><hr id="6697f796-9c9b-4a46-b5d8-eea83d202761"/><p id="16087131-a539-4262-a09a-c64adf0453d4" class="">Những khó khăn trong việc làm chủ ngữ pháp: Sự khác nhau trong cách sử dụng, ngữ pháp tiếng Việt phụ thuộc vào ngữ cảnh và tình huống, trong khi ngữ pháp tiếng Anh thiên về cấu trúc logic.</p><p id="c61e7413-6ca2-4a55-b7f5-a313ad0a6dbe" class="">Khái niệm về Contextualized Learning: Phương pháp học tập thiên về thực hành dựa trên trải nghiệm thực tế của người học hơn là các lý thuyết suông.</p><p id="58bc7874-5a68-4386-a68d-b6d690d00fd6" class=""><strong>Lợi ích của việc áp dụng Contextualized Learning vào việc học ngữ pháp</strong></p><ul id="b70f23ef-7d71-4b60-a07a-addecd544c8a" class="bulleted-list"><li style="list-style-type:disc">Tăng cường khả năng ghi nhớ</li></ul><ul id="453a6079-af76-4fb7-b5ed-c148c89b93ac" class="bulleted-list"><li style="list-style-type:disc">Cải thiện khả năng tiếp thu</li></ul><ul id="9e49f6a0-8834-4f8b-9a1f-5973f87c3262" class="bulleted-list"><li style="list-style-type:disc">Tạo động lực</li></ul><ul id="925fc6f4-dba7-4e5c-a64c-b91ae3469534" class="bulleted-list"><li style="list-style-type:disc">Ứng dụng thực tế</li></ul><ul id="595c29aa-8ecf-4cb0-b94b-e367c91c5a92" class="bulleted-list"><li style="list-style-type:disc">Phát triển các kỹ năng</li></ul><ul id="69f70187-10bd-4862-9ec1-f4dd6dd04ac9" class="bulleted-list"><li style="list-style-type:disc">Kết nối văn hóa</li></ul><ul id="b58c9652-71c3-4bb3-954b-d4f36302b5cc" class="bulleted-list"><li style="list-style-type:disc">Phương pháp học linh hoạt theo nhu cầu</li></ul><ul id="97dabe3f-15c9-481f-9369-1b261890c6d8" class="bulleted-list"><li style="list-style-type:disc">Tư duy phê phán</li></ul><p id="7290133b-6b36-4217-9714-59e960e38f59" class=""><strong>Phương pháp áp dụng Contextualized Learning trong việc học ngữ pháp</strong></p><ul id="dd8118a0-57f3-4469-8b48-fd739416314b" class="bulleted-list"><li style="list-style-type:disc">Học theo chủ đề</li></ul><ul id="58c42fe8-cc5f-49e2-bd0e-c439ce747906" class="bulleted-list"><li style="list-style-type:disc">Trong đời sống hằng ngày</li></ul><ul id="c61479b9-362f-4ee6-a486-16b18d87e46b" class="bulleted-list"><li style="list-style-type:disc">Kết hợp tất cả các kỹ năng</li></ul><p id="0ff2157f-04e1-48d5-afce-4058712addbb" class=""><strong>Một số dạng bài thực hành Contextualized Learning cụ thể khi học ngữ pháp tại lớp:</strong></p><ul id="3163b8d8-918f-4b69-9f09-33262de7aad0" class="bulleted-list"><li style="list-style-type:disc">Bài tập biến đổi câu</li></ul><ul id="cdd74eb2-64da-4449-a789-cfbf747b9007" class="bulleted-list"><li style="list-style-type:disc">Bài tập phát triển câu</li></ul><ul id="da6bf8c5-258a-4dd2-a3e7-45c16657dbc7" class="bulleted-list"><li style="list-style-type:disc">Bài tập phân tích và viết lại câu mẫu</li></ul><ul id="8b86a11a-d74c-448b-a3fe-9d4c7b006b14" class="bulleted-list"><li style="list-style-type:disc">Học ngữ pháp theo chủ đề</li></ul><ul id="36185760-788c-496c-9b27-2c40701ce243" class="bulleted-list"><li style="list-style-type:disc">Tự sửa bài</li></ul><p id="ef598e62-57b0-4a0b-aeed-6096d5ad591a" class=""><strong>Một số hoạt động thực hành Contextualized Learning vào học ngữ pháp trong đời sống:</strong></p><ul id="bff2e1b9-0bd0-450e-96b6-5680458b2048" class="bulleted-list"><li style="list-style-type:disc">Lên kế hoạch</li></ul><ul id="3795ebac-7fe5-40f3-8edc-408fee991e8c" class="bulleted-list"><li style="list-style-type:disc">Thói quen hằng ngày</li></ul><ul id="93d14aee-748e-4704-9708-f19a071a6f51" class="bulleted-list"><li style="list-style-type:disc">Viết nhật ký</li></ul><ul id="4df31660-7599-4506-a6d2-6c7f3dd66bfc" class="bulleted-list"><li style="list-style-type:disc">Tạo môi trường</li></ul><ul id="9011ef93-1adb-49f1-a0f4-60c5869e028e" class="bulleted-list"><li style="list-style-type:disc">Giao tiếp trong công việc</li></ul><ul id="5f96ff98-ce13-4829-ab04-42f2d2c217a2" class="bulleted-list"><li style="list-style-type:disc">Đi lại và du lịch</li></ul><hr id="8c992ea9-c07a-438e-8b6d-b2689a8fb3d8"/><h2 id="47219c98-4a21-4a26-8b49-44fab1264109" class=""><strong>Sơ lược về sự khác biệt giữa Ngôn ngữ Tiếng Việt và Tiếng Anh</strong></h2><p id="03bbe972-4bd9-42e4-b805-c126eb6a2f43" class="">Tiếng Anh đóng vai trò quan trọng trong nhiều lĩnh vực, từ giáo dục và công việc đến kết nối quốc tế, làm cho việc học tiếng Anh trở thành ưu tiên của nhiều người Việt. Ngữ pháp tiếng Anh có nhiều điểm khác biệt so với tiếng Việt, do đó gây cản trở nhiều cho người học.</p><h3 id="4353bf74-2004-4ebd-9773-4fc832204d6c" class=""><strong>Cấu trúc câu (Sentence structure / Word order)</strong></h3><p id="c85c7efd-2460-4623-8524-41f9c7bf1366" class="">Trong <strong>tiếng Việt</strong>, cấu trúc câu điển hình là Chủ ngữ-Tân ngữ-Động từ (SOV). Nghĩa là chủ ngữ của câu được theo sau bởi tân ngữ và động từ.</p><p id="2e044d0f-740d-48f2-97fd-5b9334a288d0" class="">Trong <strong>tiếng Anh</strong>, cấu trúc câu điển hình là Chủ ngữ-Động từ-Tân ngữ (SVO). Nghĩa là chủ ngữ của câu thực hiện hành động, động từ thể hiện hành động và tân ngữ là người / vật nhận hành động.</p><p id="d4e36d0b-774c-4503-ba84-e5aa79f33fa8" class="">Hiểu rõ những khác biệt cơ bản về thứ tự từ này là quan trọng đối với người học vì nó ảnh hưởng đến cách câu được cấu trúc và cách thông tin được truyền đạt.</p><h3 id="79995cf6-a8f9-43a3-b50e-a25e79119979" class=""><strong>Chia động từ:</strong></h3><p id="112b0c6a-4648-45a0-b8cf-3be8ca088054" class=""><strong>Tiếng Việt</strong> sử dụng ngữ cảnh, cách diễn đạt thời gian và các dấu hiệu cụ thể (trợ từ) thay vì chia động từ để truyền đạt thì và thể.</p><p id="890c02fe-3007-4105-b29c-8c330e9191d1" class=""><strong>Tiếng Anh</strong> dựa vào cách chia động từ và trợ động từ để biểu thị các thì (tenses) và các thể của động từ (aspects).</p><p id="1327ad74-995b-4062-adbc-7b7a279b5ab0" class="">Một số điểm khác biệt:</p><p id="a4e7ff38-f494-44ce-a97e-babf9c65ec48" class=""><strong>Các Thì và Thể của động từ (Aspects):</strong></p><ul id="037a0a90-dca4-45a4-b8c9-19fd41430edd" class="bulleted-list"><li style="list-style-type:disc"><strong>Tiếng Việt</strong> thường dựa vào các trợ từ để diễn đạt thì và thể, với các dấu hiệu riêng cho hành động đã hoàn thành (ví dụ: ”đã”), hành động đang diễn ra (ví dụ: ”đang” hoặc bỏ trống) và hành động tương lai (ví dụ: ”sẽ”).</li></ul><ul id="c852490a-840e-410a-81eb-d1fe582e7356" class="bulleted-list"><li style="list-style-type:disc"><strong>Tiếng Anh</strong> sử dụng nhiều thể động từ khác nhau đối với tùy thì, bao gồm việc sử dụng các trợ động từ và biến tố của động từ.</li></ul><p id="3ede98a4-310e-4831-84ac-f05e417edc3f" class=""><strong>Ngôi giao tiếp và Số lượng:</strong></p><ul id="d28ebdc0-f3ea-4a28-a239-79105822ec70" class="bulleted-list"><li style="list-style-type:disc">Trong <strong>tiếng Việt</strong>, dạng động từ ít bị ảnh hưởng bởi ngôi giao tiếp và số lượng của chủ ngữ.</li></ul><ul id="4472b6ad-2571-4832-b43f-d47c186e3b54" class="bulleted-list"><li style="list-style-type:disc">Trong <strong>tiếng Anh</strong>, dạng động từ thay đổi dựa trên ngôi (thứ nhất, thứ hai, thứ ba) và số (số ít, số nhiều) của chủ ngữ.</li></ul><p id="83b0d2cc-632c-4f9c-ad98-ee8f38aeb0c5" class=""><strong>Thể (Voice):</strong></p><ul id="9d4ab9de-7f9b-4339-a4d6-2d2fb430f0fd" class="bulleted-list"><li style="list-style-type:disc">Thay vì thay đổi dạng động từ, <strong>tiếng Việt</strong> sử dụng các trợ từ cụ thể (ví dụ: “bị”)</li></ul><ul id="ee713596-1947-4195-8ac7-4ba5b7541092" class="bulleted-list"><li style="list-style-type:disc">Động từ <strong>tiếng Anh</strong> tùy thuộc vào thể chủ động hay thể bị động sẽ sử dụng các dạng động từ khác nhau.</li></ul><p id="fc363ee7-bd6a-4ad6-81ba-52aa30ce0032" class="">Nhìn chung, mặc dù cả hai ngôn ngữ đều truyền đạt thông tin về thời gian và thể thức thông qua động từ, nhưng chúng thực hiện điều đó bằng cách sử dụng các cấu trúc và chiến lược ngữ pháp khác nhau. Tiếng Anh có xu hướng dựa vào hệ thống chia động từ phức tạp hơn, kết hợp nhiều dạng động từ đa dạng, trong khi tiếng Việt thường sử dụng các trợ từ và dấu hiệu cụ thể để truyền đạt ý nghĩa tương tự.</p><h3 id="a73cf8d3-c8de-4c02-8d77-3f6828209d2e" class=""><strong>Đại từ / Danh từ</strong></h3><ul id="bdf962cb-764b-4fef-9ab5-5225d9511a0f" class="bulleted-list"><li style="list-style-type:disc">Đại từ <strong>tiếng Việt</strong> phụ thuộc vào ngữ cảnh và không có nhiều thay đổi về ngữ pháp.</li></ul><ul id="6e2eaea8-52ca-46aa-b68f-5ffc2d562077" class="bulleted-list"><li style="list-style-type:disc">Đại từ <strong>tiếng Anh</strong> thay đổi hình thức dựa trên vai trò ngữ pháp của chúng (ví dụ: I, me, my).</li></ul><p id="853b3a21-893e-4d22-a2c0-ec9a081759dc" class=""><strong>Đại từ chủ ngữ và đại từ tân ngữ:</strong></p><ul id="2c35a388-ca42-40bd-8e3c-dbb19747538a" class="bulleted-list"><li style="list-style-type:disc">Trong khi trong <strong>tiếng Anh</strong>, đại từ chủ ngữ và tân ngữ khác nhau thì trong <strong>tiếng Việt</strong> chúng được sử dụng tương đối giống nhau.<ul id="77da0edb-ebb4-48ea-b537-8368a4f32baf" class="bulleted-list"><li style="list-style-type:circle"><strong>Tiếng Việt:</strong> Tôi / bạn / anh ấy / cô ấy / nó / chúng tôi / họ</li></ul><ul id="a2f0718d-3d52-41d0-8d33-612b480d1938" class="bulleted-list"><li style="list-style-type:circle"><strong>Tiếng Anh:</strong><ul id="d6f00add-6402-44bb-bb5c-970d1ae96369" class="bulleted-list"><li style="list-style-type:square">Đại từ chủ ngữ: Tôi / bạn / anh ấy / cô ấy / nó / chúng tôi / họ</li></ul><ul id="873e8430-0dc4-42fc-b1a7-af2c8e63e718" class="bulleted-list"><li style="list-style-type:square">Đại từ tân ngữ: Tôi / bạn / anh ấy / cô ấy / nó / chúng tôi / họ</li></ul></li></ul></li></ul><p id="7568a1b2-24ca-4af9-9ad6-607134a31c8e" class=""><strong>Danh từ có giới tính (Gender-specific nouns)</strong></p><ul id="0c9fa353-9a4c-4ef6-9340-b6e5ac42df5c" class="bulleted-list"><li style="list-style-type:disc">Danh từ có giới tính trong <strong>tiếng Anh</strong>, khi thông dịch sang <strong>tiếng Việt</strong> sẽ trở thành “chức danh” + giới tính của họ.<p id="5e751508-7a1e-43c3-ad50-808b69fc2259" class=""><strong>Ví dụ:</strong> actor / actress → diễn viên nam / diễn viên nữ</p></li></ul><ul id="62a3ea97-0f9c-4baf-89f6-5c2f44101b1f" class="bulleted-list"><li style="list-style-type:disc">Tuy nhiên, có những danh từ có giới tính trong <strong>tiếng Việt</strong> lại là danh từ không có giới tính (gender-neutral nouns) trong tiếng Anh.<p id="ebb58d81-896b-486b-9e23-1ae0192339d9" class=""><strong>Ví dụ:</strong> thầy giáo / cô giáo → (male / female) teacher</p><p id="53e61244-b053-4f9d-b28d-8fd750682986" class="">(trong tiếng việt khi nhắc đến “giáo viên” (teachers), người việt có xu hướng sử dụng cụm từ “thầy cô giáo”)</p></li></ul><p id="ef1fb3e0-d546-48bf-bf1e-26adc4c99ea1" class="">Vì các cách sử dụng khác biệt nhiều, không chỉ ở ngữ pháp mà còn do cách dùng từ vựng của tiếng Anh sẽ khiến người học dễ nhầm lẫn trong cách xưng hô và gọi tên.</p><h3 id="e43d4b72-8d0b-4ce0-8641-87f3c8f9fb01" class=""><strong>Số nhiều:</strong></h3><ul id="7bab7dfc-a8b9-48b4-b9e1-6a3cefd06bd6" class="bulleted-list"><li style="list-style-type:disc"><strong>Tiếng Việt</strong> số nhiều thường được biểu thị thông qua ngữ cảnh hoặc từ ngữ cụ thể (đặc biệt là từ đo lường) sử dụng</li></ul><ul id="608fb58d-a9ae-4163-b8f4-a67e3720b36e" class="bulleted-list"><li style="list-style-type:disc"><strong>Tiếng Anh</strong> thường tạo thành số nhiều bằng cách thêm “-s” hoặc “-es” vào danh từ; tuy nhiên, cũng có một số số nhiều bất quy tắc (ví dụ: man, children, v.v.) hoặc một số vẫn giữ nguyên (ví dụ: sheep, deer, v.v.)</li></ul><p id="4e26701f-6dc3-4799-a2a7-fc8fc78045ad" class="">Sau khi điểm qua nhiều điểm khác biệt giữa ngữ pháp tiếng Anh và tiếng Việt ở trên, có thể nhận thấy <strong>ngữ pháp tiếng Việt</strong> phụ thuộc rất nhiều vào <strong>ngữ cảnh và tình huống</strong>, trong khi ngữ pháp <strong>tiếng Anh</strong> thiên về <strong>cấu trúc logic</strong> hơn. Việc hiểu và sử dụng một cách phù hợp các sắc thái văn hóa và ngữ cảnh trong các biểu đạt, thành ngữ hoặc cách diễn đạt tiếng Anh có thể là thách thức đối với những người học tiếng Anh ở Việt Nam vì họ không có nhiều môi trường để tiếp xúc thường xuyên với ngôn ngữ này. Người Việt có thể cần phải điều chỉnh cách suy nghĩ trực nghĩa (literal) và cụ thể hơn để từng bước một khi xây dựng câu từ tiếng Anh.</p><p id="fb1275d7-25e4-4631-b27b-b084926626a6" class="">Tóm lại, những khó khăn của học sinh Việt Nam khi học ngữ pháp tiếng Anh xuất phát từ cấu trúc ngữ pháp khác biệt của hai ngôn ngữ. Có thể thấy rằng, việc “ngữ cảnh hóa” (contextualised) ngữ pháp là rất quan trọng đối với người Việt khi học tiếng Anh, bởi điều đó sẽ khiến việc học trở nên dễ hiểu và dễ tiếp thu hơn.</p><h2 id="d20e23d1-1dcb-4975-aa57-38ad782d5784" class=""><strong>Contextualized Learning là gì?</strong></h2><p id="db261b3d-1896-416a-af1d-93d40edabb1a" class=""><strong>Contextualized Learning</strong> trong tiếng Việt có thể gọi là “Phương pháp học ngữ cảnh hóa thông tin”. Nói một cách đơn giản, đây là một phương pháp học tập nhằm mục đích trả lời câu hỏi <strong>“Khi nào và làm sao để tôi sẽ sử dụng kiến thức này trong đời sống thực?”</strong>. Việc “ngữ cảnh hóa” rất cần thiết trong quá trình tiếp thu thông tin, vì được dựa trên trải nghiệm thực tế của người học hơn là các lý thuyết suông.</p><p id="61ca8c1c-a5a7-4ee4-9bdb-6cecc587e542" class="">Nhìn chung, Contextualized Learning được thể hiện qua nhiều các lý luận sư phạm khác nhau, liên quan phần lớn đến việc thực hành hơn là lý thuyết. Hai nhà tâm lý học và triết gia John Dewey và Lev Vygotsky đã chia sẻ một quan điểm đồng nhất về quá trình học tập, theo đó, việc khuyến khích học sinh đặt ra những câu hỏi dựa trên việc giải quyết vấn đề một cách tiến bộ không chỉ thúc đẩy sự sáng tạo mà còn kích thích tư duy sáng tạo của người học để đáp ứng một cách linh hoạt và hiệu quả đối với nhu cầu cụ thể của tình huống học tập.</p><h2 id="25ae3fa3-af4b-4a8b-a2cd-5ee79e20f706" class=""><strong>Lợi ích của việc áp dụng Contextualized Learning vào việc học ngữ pháp:</strong></h2><p id="725ab595-53cf-41c1-8af4-8c051c373715" class="">Việc giảng dạy ngữ pháp tiếng Anh truyền thống thường nặng về các lý thuyết, quy tắc, tập trung vào các điểm ngữ pháp rời rạc mà không nhấn mạnh vào cách áp dụng chúng trong bối cảnh thực tế. Tuy nhiên, xu hướng giảng dạy gần đây đã chuyển sang các phương pháp giảng dạy ngôn ngữ mang tính giao tiếp và thực tế hơn, nhận thức được nhu cầu của người học trong việc hiểu và sử dụng các quy tắc ngữ pháp trong đời sống. Contextualized Learning là một trong các phương pháp tiêu biểu thường được áp dụng dựa trên các lý do sau đây:</p><figure id="d86bb283-3fdf-4e2e-b1b0-d3d690446c0a" class="image"><a href="assets/img/loi-ich-cua-contextualized-learning.jpg"><img style="width:1200px" src="assets/img/loi-ich-cua-contextualized-learning.jpg"/></a></figure><ul id="fc47bbef-9a15-48db-81ea-80bff8c1872e" class="bulleted-list"><li style="list-style-type:disc"><strong>Tăng cường khả năng ghi nhớ:</strong> Khi ngữ pháp được dạy thông qua bối cảnh có ý nghĩa đối với người học, chẳng hạn như thông qua một câu chuyện, cuộc trò chuyện hoặc tình huống thực tế, họ sẽ dễ dàng nhớ các quy tắc và cấu trúc hơn.</li></ul><ul id="a1ef46ad-0fce-4fa2-b8e8-ae8febfa2b47" class="bulleted-list"><li style="list-style-type:disc"><strong>Cải thiện khả năng tiếp thu: </strong>Học theo ngữ cảnh giúp người học hiểu được cách sử dụng thực tế ngữ pháp, thay vì chỉ xem chúng như một bộ quy tắc trừu tượng phải học thuộc lòng.</li></ul><ul id="c5754589-9c20-4105-ac19-000aaf084694" class="bulleted-list"><li style="list-style-type:disc"><strong>Tạo động lực: </strong>Học ngữ pháp trong ngữ cảnh thú vị và ít đơn điệu hơn so với các phương pháp học cứng nhắc truyền thống. Nó kích thích sự tò mò và tạo động lực cho người học bằng cách cho họ thấy cách sử dụng ngôn ngữ thực tế, khiến họ muốn tự tìm tòi, áp dụng các điểm ngữ pháp để tự kể ra câu chuyện của mình</li></ul><ul id="d101856d-a78f-497f-8f9b-6a1ad829a2f8" class="bulleted-list"><li style="list-style-type:disc"><strong>Ứng dụng thực tế:</strong> Bằng cách sử dụng ví dụ thực tế, người học có thể thực hành ngữ pháp trong các tình huống bên ngoài lớp học, chẳng hạn như viết email, trò chuyện hoặc đọc báo.</li></ul><ul id="3503680b-b012-4a7a-be6b-306fee5818f6" class="bulleted-list"><li style="list-style-type:disc"><strong>Phát triển các kỹ năng: </strong>Học theo ngữ cảnh cho phép học viên áp dụng kiến thức ngữ pháp trong các kỹ năng tốt hơn, chẳng hạn như viết, nói hoặc tương tác hàng ngày, phản ánh bản chất kết nối của ngôn ngữ..</li></ul><ul id="216c30b4-420d-491f-b00f-0ce96abc39c2" class="bulleted-list"><li style="list-style-type:disc"><strong>Kết nối văn hóa:</strong> Bối cảnh hóa việc học ngữ pháp trong các văn bản văn hóa, phương tiện truyền thông và thực hành giúp người học hiểu cách sử dụng ngôn ngữ trong bối cảnh văn hóa, lịch sử khác nhau, điều này rất quan trọng nếu muốn thành thạo một ngôn ngữ.</li></ul><ul id="4d305d26-9bde-44ce-9ec7-50dfad8193b8" class="bulleted-list"><li style="list-style-type:disc"><strong>Phương pháp học linh hoạt theo nhu cầu: </strong>Học theo ngữ cảnh có thể thích ứng với nhu cầu và sở thích cụ thể của người học, làm cho việc tiếp thu ngữ pháp trở nên cá nhân hoá và hiệu quả hơn.</li></ul><ul id="e13c5461-bee9-4c1a-982a-4e0933d1dc84" class="bulleted-list"><li style="list-style-type:disc"><strong>Tư duy phê phán:</strong> Học ngữ pháp trong các bối cảnh khác nhau cũng có thể phát triển các kỹ năng tư duy phê phán khi người học phân tích ảnh hưởng của các điểm ngữ pháp khác nhau đến ý nghĩa câu văn.</li></ul><p id="3506d224-6a7c-4b53-bdd7-333be06320b4" class="">Bằng cách xây dựng phương pháp học ngữ pháp tiếng Anh theo ngữ cảnh có liên quan đến người học, sự phức tạp của ngữ pháp được giản lược đáng kể và biến nó thành một công cụ để giao tiếp hiệu quả.</p><h2 id="379a50e7-d861-45dc-8606-e0abfc61b35d" class=""><strong>Áp dụng Contextualized Learning vào việc học ngữ pháp:</strong></h2><p id="4e199482-dde9-49d5-ad5f-8aa014ead260" class="">Để việc học ngữ pháp trở nên hấp dẫn và thực tế hơn, người học nên chuyển từ cách học <strong>giải thích định nghĩa</strong> sang <strong>khám phá,</strong> tự tìm tòi thông tin. Sau đây là ba cách đơn giản để các bài học ngữ pháp mang tính khám phá hơn:</p><ul id="5ab1de01-36de-4d53-a93d-0d8dec9426ed" class="bulleted-list"><li style="list-style-type:disc"><strong>Học theo chủ đề: </strong>Học ngữ pháp dựa trên sở thích và mục tiêu cá nhân.</li></ul><p id="7272df41-4e82-4af1-90ce-042faf82f19c" class=""><strong>Ví dụ: </strong>Học ngữ pháp và cấu trúc câu với chủ đề về Du lịch và Mua sắm vì sắp tới có dịp đi du lịch. Sử dụng các điểm ngữ pháp vừa học để trò chuyện với người dân địa phương, <strong>tạo môi trường để thực hành</strong> và biến ngữ pháp trở thành một phần tự nhiên trong quá trình sử dụng ngôn ngữ.</p><ul id="49243860-9b93-448b-9d6a-8b79e03c03e9" class="bulleted-list"><li style="list-style-type:disc"><strong>Trong đời sống hằng ngày:</strong> Kết hợp các tài liệu thực tế như phim, sách, bài báo và bài hát. Tuy nhiên, lưu ý rằng, để dễ tiếp thu hãy chọn các chủ đề mà bản thân yêu thích để tránh sự nhàm chán và mất động lực. Vì đối với người mới học, việc tiếp nhận quá nhiều thông tin mới một lúc sẽ gây quá tải.</li></ul><ul id="c752f071-87c6-45d0-8c54-deacc5648a24" class="bulleted-list"><li style="list-style-type:disc"><strong>Kết hợp tất cả các kỹ năng:</strong> Đảm bảo khi thực hành ngữ pháp, hãy tìm kiếm cơ hội áp dụng hết tất cả các kỹ năng ngôn ngữ – nghe, nói, đọc và viết. Việc tích hợp nhất quán cấu trúc ngữ pháp vào cả bốn kỹ năng, học viên sẽ tiếp thu một cách tự nhiên và liền mạch hơn.</li></ul><h3 id="251191e2-c52e-4a4d-9b83-e7a9770f41c2" class=""><strong>Một số dạng bài thực hành Contextualized Learning theo nội dung ngữ pháp cụ thể</strong></h3><ul id="06de9b87-41fb-4ae4-96ab-447797b9f0ed" class="bulleted-list"><li style="list-style-type:disc"><strong>Điểm ngữ pháp: Các thì (Tenses)</strong></li></ul><p id="187bc7fa-db37-4dc3-9e4a-c74b93ad7b0a" class=""><strong>Ví dụ:</strong> Thay vì chỉ nhớ các quy tắc sử dụng trong quá khứ, người học có thể đọc một câu chuyện ngắn. Sau đó thể thảo luận về các sự kiện trong câu chuyện hoặc sử dụng thì quá khứ để viết về những trải nghiệm tương tự trong cuộc sống.</p><p id="108eaecb-089e-41e8-ab42-926fffdfadd6" class=""><strong>Lợi ích:</strong> Cách tiếp cận này giúp học sinh hiểu được việc sử dụng thì trong các sự kiện kể lại và cải thiện khả năng kể câu chuyện của họ một cách mạch lạc.</p><ul id="d7bdc183-207d-415c-8f26-ce09d84e0bf7" class="bulleted-list"><li style="list-style-type:disc"><strong>Điểm ngữ pháp: Câu điều kiện (Conditional Sentence)</strong></li></ul><p id="830d6849-de3e-463a-b13e-d4c92f2dbe97" class=""><strong>Ví dụ:</strong> Học sinh có thể được hiển thị các tình huống thực tế trong cuộc sống, chẳng hạn như lên kế hoạch cho một chuyến đi. Họ có thể sử dụng câu điều kiện (ví dụ: &quot;If it rains, I will bring an umbrella.&quot;) để thảo luận về những gì họ sẽ làm trong các tình huống khác nhau.</p><p id="9cee4497-2c8f-459a-b1aa-ad559fb1b4e9" class=""><strong>Lợi ích:</strong> Người học nhìn thấy ứng dụng thực tế của các câu điều kiện trong việc lập kế hoạch và ra quyết định, làm cho khái niệm trừu tượng &quot;nếu - thì&quot; cụ thể và phù hợp hơn.</p><ul id="71ed34c2-c683-46f9-b26b-6f3081114c71" class="bulleted-list"><li style="list-style-type:disc"><strong>Điểm ngữ pháp: Động từ khiếm khuyết về khả năng và nhu cầu (Modals Of Possibility And Necessity)</strong></li></ul><p id="3cecff0a-bbbb-4a09-8b51-96990870b1ff" class=""><strong>Ví dụ:</strong> Khi thảo luận về các lựa chọn nghề nghiệp, học viên có thể sử dụng động từ khiếm khuyết để thể hiện khả năng và sự cần thiết (ví dụ: &quot;You might need to learn a second language to work in international relations.&quot; hoặc &quot;You must have a degree to apply for this job&quot;).</p><p id="e5c45f74-28aa-4e79-ba70-61b78f622276" class=""><strong>Lợi ích:</strong> Điều này giúp học sinh hiểu được các sắc thái của việc thể hiện nghĩa vụ, sự cần thiết và khả năng quan trọng để đưa ra lời khuyên hoặc thảo luận về các yêu cầu.</p><ul id="81e4cdd8-def7-45b2-9941-6fcdedb56611" class="bulleted-list"><li style="list-style-type:disc"><strong>Điểm ngữ pháp: Thể bị động (Passive Voice)</strong></li></ul><p id="2283c266-e758-4f71-8b25-6fe062610a5a" class=""><strong>Ví dụ:</strong> Trong lớp khoa học, người học có thể mô tả một thí nghiệm hoặc quá trình bằng cách sử dụng một thể bị động (ví dụ: &quot;The solution was heated to 100 degrees Celsius&quot;).</p><p id="bb1c4637-5341-4a90-ab30-5012521bf1e7" class=""><strong>Lợi ích:</strong> Người học có thể thực hành sử dụng thể bị động, ví dụ như viết báo cáo về một thí nghiệm quan sát được, hoặc mô tả 1 quy trình sản xuất, làm nổi bật sự liên quan của thể bị động trong học thuật và nghề nghiệp.</p><ul id="050b4414-b389-4de5-a727-cff40f3f2629" class="bulleted-list"><li style="list-style-type:disc"><strong>Điểm ngữ pháp: Giới từ (Prepositions)</strong></li></ul><p id="31f89796-5567-4f9f-a6db-d417d551493e" class=""><strong>Ví dụ: </strong>Người học có thể tham gia vào một trò chơi săn tìm kho báu, trong đó họ phải sử dụng giới từ vị trí (ví dụ: &quot;The clue is under the table, next to the plant.&quot;).</p><p id="71bfd87e-8e46-48c8-ab85-499fbe9468ef" class=""><strong>Lợi ích: </strong>Hoạt động này giúp học viên hiểu và ghi nhớ cách miêu tả không gian bằng giới từ, cải thiện khả năng xác định phương hướng.</p><ul id="adf4b5be-2ee6-4a9c-9625-ce8ea6eceea1" class="bulleted-list"><li style="list-style-type:disc"><strong>Điểm ngữ pháp: Mệnh đề quan hệ (Relational clause)</strong></li></ul><p id="b2c246ad-e9a7-422c-af3d-6d9f2cb32c18" class=""><strong>Ví dụ:</strong> Người học có thể sử dụng mệnh đề quan hệ để thêm thông tin (ví dụ: &quot;My classmate, <strong>who is an excellent soccer player</strong>, scored the winning goal&quot;) để viết một bài giới thiệu về bạn cùng lớp hoặc một người nổi tiếng.</p><p id="7d400b6e-f88f-4ec1-9207-f78ed50af7cd" class=""><strong>Lợi ích: </strong>Bài tập này dạy người học nắm được cách sử dụng các mệnh đề quan hệ để kết hợp các câu và cung cấp thêm thông tin để cải thiện kỹ năng viết mô tả của họ.</p><h3 id="bbec058c-3174-442a-9796-b8918e891a99" class=""><strong>Một số dạng bài thực hành Contextualized Learning cụ thể khi học ngữ pháp tại lớp:</strong></h3><figure id="e3ec1a52-609b-4ce1-b695-f2860cda9071" class="image"><a href="assets/img/bai-tap-ung-dung-contextualized-learning-vao-hoc-ngu-phap.jpg"><img style="width:1200px" src="assets/img/bai-tap-ung-dung-contextualized-learning-vao-hoc-ngu-phap.jpg"/></a></figure><ul id="d497ef7b-921e-433a-a542-7247748b2ec3" class="bulleted-list"><li style="list-style-type:disc"><strong>Bài tập biến đổi câu: </strong>Người học luyện tập áp dụng biến đổi các điểm ngữ pháp khác nhau dựa trên 1 câu có sẵn.</li></ul><table id="e243467e-4209-4df8-a6c8-03a6119d3e07" class="simple-table"><tbody><tr id="967a70f0-c760-4844-a4c1-87be53fe8def"><td id="\?Rh" class=""><strong>ví dụ:</strong></td><td id="mx=k" class=""><strong>He goes to the coffee shop next door every morning.</strong></td></tr><tr id="a3fef9e6-e48c-456f-be20-b83b00a61f15"><td id="\?Rh" class="">Thì quá khứ đơn</td><td id="mx=k" class="">He used to go to the coffee shop every morning when he was younger.</td></tr><tr id="bd4932c8-6088-4b52-9d7f-a439ab73b1e7"><td id="\?Rh" class="">Thì hiện tại hoàn thành</td><td id="mx=k" class="">He has been to that coffee shop 7 times.</td></tr></tbody></table><ul id="ba5c2399-27f7-4497-af09-8873d1eb53c0" class="bulleted-list"><li style="list-style-type:disc"><strong>Bài tập phát triển câu:</strong> Người học ghi sẵn 1 chủ ngữ và 1 động từ, sau đó dùng các điểm ngữ pháp đã học để phát triển thành câu hoàn chỉnh.</li></ul><table id="2de38d01-1633-42b9-9df2-83c651b57e5a" class="simple-table"><tbody><tr id="32628183-32bf-4f83-a8a0-34f35f114208"><td id="a:}b" class=""><strong>ví dụ:</strong></td><td id="G^:?" class=""><strong>Chủ ngữ</strong></td><td id="OMFs" class=""><strong>Động từ</strong></td></tr><tr id="9615a281-2f4a-4cfa-9319-bab539ccfaa7"><td id="a:}b" class="">Đề cho:</td><td id="G^:?" class="">The government</td><td id="OMFs" class="">carry out</td></tr><tr id="2286686d-90f1-4d14-b660-f22490ce1212"><td id="a:}b" class="">Phát triển câu:</td><td id="G^:?" class="">Last year, <strong>the government carried out</strong> a new set of rules to deal with the national crisis.</td><td id="OMFs" class=""></td></tr></tbody></table><ul id="1ccdfe12-1f72-4adf-b17c-6bd8f4e00b47" class="bulleted-list"><li style="list-style-type:disc"><strong>Bài tập phân tích và viết lại câu mẫu</strong>: với dạng luyện tập này, người đọc có thể chọn một vài câu tâm đắc trong tác phẩm văn học yêu thích, phân tích điểm ngữ pháp đang học dựa trên câu đó, hoặc viết lại câu theo điểm ngữ pháp đang học.</li></ul><p id="486160e2-a407-4bbd-a831-73c66dfc3e0c" class="">Ví dụ: “The darkest places in hell are reserved for those who maintain their silence at times of crisis.” ― Dan Brown, Inferno.</p><table id="a385a4dc-679a-4f0b-9700-c911c235031c" class="simple-table"><tbody><tr id="eae36989-c2e8-49a6-94e9-61da8d784f5f"><td id="GeMY" class=""></td><td id="wO:L" class=""><strong>Chủ ngữ</strong></td><td id="pQm&lt;" class=""><strong>Động từ</strong></td></tr><tr id="8ec4c226-e43f-4d52-ad9b-05c5b2e517f0"><td id="GeMY" class=""></td><td id="wO:L" class="">The darkest places in hell</td><td id="pQm&lt;" class="">are reserved</td></tr><tr id="dca4bbaa-e12f-4e4b-a383-e2c5e7fe40ec"><td id="GeMY" class=""><strong>Điểm ngữ pháp</strong></td><td id="wO:L" class="">câu bị động và mệnh đề quan hệ</td><td id="pQm&lt;" class=""></td></tr></tbody></table><ul id="c0e2f94f-c35e-48c6-94e8-d5fb61c47e7d" class="bulleted-list"><li style="list-style-type:disc"><strong>Học ngữ pháp theo chủ đề:</strong> Người học có thể thông qua các chủ đề nhất định để thực hành sử dụng các thì, chẳng hạn như mô tả về một trải nghiệm trong quá khứ, hoặc dự định sắp tới trong trong tương lai.</li></ul><ul id="bcfb80fb-4f37-40bd-b8e0-01a201be7075" class="bulleted-list"><li style="list-style-type:disc"><strong>Tự sửa bài:</strong> Người học có thể lập một checklist các điểm yếu ngữ pháp bằng cách tự sửa lỗi trong bài viết và bài nói của mình. Học viên có thể sử dụng các công cụ như Grammarly để tìm ra lỗi ngữ pháp và ghi chép lại để cải thiện. Ngoài ra, đọc bài essay hướng ngược lại từ câu cuối cùng lên đầu sẽ giúp học viên tập trung vào cấu trúc câu, từ đó phát hiện ra lỗi ngữ pháp dễ dàng hơn. Người học có thể trao đổi bài với bạn bè và sửa bài cho nhau. Khi sửa bài cho người khác, học viên thường nhận ra lỗi sai dễ dàng hơn và hỗ trợ nhau cùng cải thiện.</li></ul><h3 id="90224b4c-7996-4067-b921-8e0afca8aa96" class=""><strong>Một số hoạt động thực hành Contextualized Learning vào học ngữ pháp trong đời sống:</strong></h3><figure id="b1601795-6323-41d6-b335-b26dcad21261" class="image"><a href="assets/img/CTL-trong-doi-song.jpg"><img style="width:1200px" src="assets/img/CTL-trong-doi-song.jpg"/></a></figure><ul id="69bb056b-55b7-4329-8e5d-c120fdd52893" class="bulleted-list"><li style="list-style-type:disc"><strong>Lên kế hoạch: </strong>Người học sử dụng các thì phù hợp để lên kế hoạch trong planner hay journal cho thời gian sắp tới.Ví dụ: Sử dụng thì tương lai gần để mô tả cho các dự định sắp tới, hay thì tương lai hoàn thành tiếp diễn cho một số cột mốc trong đời, thì tương lai hoàn thành cho một sự kiện sắp kết thúc.</li></ul><ul id="5340c228-aa2d-466e-9a0f-43f6398a4ee6" class="bulleted-list"><li style="list-style-type:disc"><strong>Thói quen hằng ngày: </strong>Người học sử dụng các thì phù hợp để diễn tả về một ngày của họ vào buổi sáng khi chuẩn bị bắt đầu ngày mới. Từ đó sẽ giúp người học thực hành ngữ pháp trong bối cảnh quen thuộc.<p id="82d26e7d-d962-4f72-a38e-63ba7eb0c55a" class=""><strong>Ví dụ: </strong>Người học mô tả các thói quen, hoạt động mỗi ngày bằng thì hiện tại đơn hay công việc đang làm bằng thì hiện tại tiếp diễn, kế hoạch trong ngày bằng thì tương lai gần.</p></li></ul><ul id="4f98c067-fc9f-4330-960d-278c82438bdf" class="bulleted-list"><li style="list-style-type:disc"><strong>Viết nhật ký: </strong>Tương tự nhưng ngược lại với phương pháp “Thói quen hằng ngày”, ở đây sẽ viết về trải nghiệm cá nhân sau một ngày.<p id="fa616d85-2d19-4112-adf1-f22df39bd02e" class=""><strong>Ví dụ: </strong>Sử dụng thì quá khứ đơn để mô tả một số hoạt động cơ bản, hoặc sử dụng quá khứ tiếp diễn để mô tả lại một đoạn thời gian trong ngày.</p></li></ul><ul id="57a391c4-29e3-49fa-b383-b793bb4e87d3" class="bulleted-list"><li style="list-style-type:disc"><strong>Tạo môi trường: </strong>Việc kiếm môi trường có sẵn sẽ khó hơn chủ động tạo cho bản thân, thực hiện bằng việc chỉ sử dụng tiếng Anh với nhóm người cố định (bạn bè, người thân, v.v.). Phương pháp này đặc biệt hiệu quả với trẻ nhỏ, vì trẻ sẽ dễ dàng tiếp thu ngôn ngữ mới hơn.<p id="11350369-f261-4ac6-9e01-86f1645498f4" class=""><strong>Ví dụ</strong> như bé MinHee được gia đình tạo môi trường cho bé học nhiều thứ tiếng khác nhau trong đời sống hằng ngày. Bé được mẹ tập thói quen nói chuyện với bố bằng tiếng Việt và với mẹ bằng tiếng Anh.</p></li></ul><ul id="b2fcfc49-af69-4e1a-8a8d-2800b8662c39" class="bulleted-list"><li style="list-style-type:disc"><strong>Giao tiếp trong công việc: </strong>Khác với giao tiếp hằng ngày, đối với môi trường chuyên nghiệp, việc sử dụng đúng ngữ pháp học thuật sẽ quan trọng hơn.<p id="165e4334-bce7-4203-bc47-0a3e069eb75c" class=""><strong>Ví dụ: </strong>Thay vì “I wanted to let you know that …”, đối với công việc cần trang trọng hơn như “I am writing to inform you that …”Người học áp dụng các điểm ngữ pháp vào viết email chuyên nghiệp, tham gia các cuộc họp và tương tác tại nơi làm việc.</p></li></ul><ul id="f2ff6666-654b-46c5-beab-8c05b644d415" class="bulleted-list"><li style="list-style-type:disc"><strong>Đi lại và du lịch: </strong>Các tình huống đi lại hoặc du lịch hàng ngày mang đến cơ hội áp dụng ngữ pháp vào các tình huống thực tế. Phương pháp này tương đối dễ thấy vì sẽ mở rộng được môi trường tiếp xúc cho người học.</li></ul><p id="0823228b-aa22-41c5-a198-ddd4aab89676" class="">Bằng cách nhấn mạnh sự tích hợp thực tế của ngữ pháp vào cuộc sống hàng ngày, người học có thể phát triển nền tảng vững chắc để giao tiếp hiệu quả. Cách tiếp cận này không chỉ nâng cao kỹ năng ngôn ngữ mà còn khơi dậy sự tự tin, cho phép người học xử lý sự phức tạp của các tương tác hàng ngày một cách dễ dàng và thành thạo.</p><h2 id="44ae032a-21a9-4ccc-bb27-e7259a650c5a" class=""><strong>Các nguồn tham khảo hữu ích khi học ngữ pháp qua Contextualized Learning:</strong></h2><p id="367b17e3-2a32-439e-96d8-93bbd228989c" class="">Đối với môi trường này thì hầu như nằm trong trường hợp ngữ cảnh hóa hoàn toàn, nhưng thông thường chỉ sử dụng các kỹ năng tiếp nhận (receptive skills) và xử lý thông tin. Việc sử dụng các nguồn tham khảo này không chỉ học được kiến thức mới mà còn học được các điểm ngữ pháp liên quan (chia động từ, hình thành câu, cụm từ cùng giới từ đi kèm, v.v.)</p><figure id="fb7d5327-f25a-4074-9f2b-d81009d1a26a" class="image"><a href="assets/img/nguon-tham-khao-ctl.jpg"><img style="width:1200px" src="assets/img/nguon-tham-khao-ctl.jpg"/></a></figure><p id="ae2fb6dd-d89f-48e4-bf5f-7e00aeaae604" class="">Như đã nêu trên, trong thực tế có thể sử dụng các tài liệu có sẵn từ các loại hình nghệ thuật:</p><h3 id="6ba517ab-48ab-4271-ac20-67e957bfcba3" class=""><strong>Văn chương (Truyện ngắn, Tiểu thuyết, Báo, Bài nghiên cứu, v.v..):</strong></h3><ul id="a68fd679-a18b-4d64-847f-7576e363aa33" class="bulleted-list"><li style="list-style-type:disc">Trang báo khoa học: <a href="https://us.sagepub.com/"><span style="border-bottom:0.05em solid">Sage publishing</span></a>, <a href="https://www.springer.com/gp"><span style="border-bottom:0.05em solid">Springer publications</span></a>, <a href="https://www.loc.gov/"><span style="border-bottom:0.05em solid">Library of Congress</span></a>, <a href="https://www.microsoft.com/en-us/research/project/academic/"><span style="border-bottom:0.05em solid">Microsoft Academic</span></a>, <a href="https://www.ieee.org/"><span style="border-bottom:0.05em solid">Institute of Electrical and Electronics Engineers</span></a>, <a href="https://www.jstor.org/"><span style="border-bottom:0.05em solid">JSTOR</span></a>, v.v.</li></ul><ul id="cecef694-463d-4ed6-8561-9f4cfd28ee56" class="bulleted-list"><li style="list-style-type:disc">Trang báo thường nhật: <a href="https://infocus.eltngl.com/"><span style="border-bottom:0.05em solid">National Geography Learning</span></a>, <a href="https://www.nomadicmatt.com/travel-blog/"><span style="border-bottom:0.05em solid">Nomadic Matt</span></a> (blog du lịch), <a href="https://www.vice.com/en"><span style="border-bottom:0.05em solid">Vice</span></a> (thông tin đời sống), v.v.</li></ul><ul id="b9e80a54-5cd3-412b-90f4-0b6c1d79dc6d" class="bulleted-list"><li style="list-style-type:disc">Truyện ngắn:<ul id="5d68aba0-f0be-4900-9ef9-dc48ef07cec2" class="bulleted-list"><li style="list-style-type:circle"><a href="https://learnenglishkids.britishcouncil.org/listen-watch/short-stories"><span style="border-bottom:0.05em solid">British Council LearnEnglish Kids Short Stories</span></a>: đơn giản và dễ hiểu cho trẻ em cùng với các trò chơi tương tác.</li></ul><ul id="57e04079-6d93-4859-9765-1cf5f63092c5" class="bulleted-list"><li style="list-style-type:circle"><a href="https://global.oup.com/academic/product/the-oxford-book-of-short-stories-9780199583133?cc=vn&amp;lang=en&amp;"><span style="border-bottom:0.05em solid">The Oxford Book of Short Stories</span></a>: gồm 41 mẩu truyện ngắn đến từ nhiều tác giả lớn.</li></ul></li></ul><ul id="6cfb756f-0747-4c98-841c-0b8b53ed26de" class="bulleted-list"><li style="list-style-type:disc">Truyện tranh:<ul id="007a3493-0ff8-44eb-9233-6f306c8abce7" class="bulleted-list"><li style="list-style-type:circle">Đa phần dành cho trẻ em từ Disney như <a href="https://readcomiconline.li/Comic/Donald-Duck-and-Friends"><span style="border-bottom:0.05em solid">Donald Duck and Friends</span></a>, <a href="https://readcomiconline.li/Comic/The-Jungle-Book"><span style="border-bottom:0.05em solid">The Jungle Book</span></a>, <a href="https://readcomiconline.li/Comic/Disney-s-The-Little-Mermaid"><span style="border-bottom:0.05em solid">The Little Mermaid</span></a>, <a href="https://readcomiconline.li/Comic/Walt-Disney-s-Pinocchio-Special"><span style="border-bottom:0.05em solid">The Wonderful Adventures of Pinocchio</span></a>, v.v.</li></ul><ul id="d26345dd-c7b2-49f0-8904-3aeb138ecfd8" class="bulleted-list"><li style="list-style-type:circle">Hoặc những truyện dịch từ Pháp-Bỉ như <a href="https://g.co/kgs/BGYPwhn"><span style="border-bottom:0.05em solid">The Adventures of Tintin</span></a> bởi Georges Remi, <a href="https://g.co/kgs/hDPkMQU"><span style="border-bottom:0.05em solid">Lucky Luke</span></a> bởi Morris, <a href="https://g.co/kgs/26ohuiH"><span style="border-bottom:0.05em solid">The Adventures of Asterix</span></a>, <a href="https://g.co/kgs/i4DERd5"><span style="border-bottom:0.05em solid">Benoît Brisefer</span></a> bởi Peyo, v.v.</li></ul></li></ul><ul id="d1506962-5653-4f97-b749-7f6fbd98e766" class="bulleted-list"><li style="list-style-type:disc">Tiểu thuyết theo một số thể loại:<ul id="9d5e0272-b0ba-4502-a16e-c4f32012fb37" class="bulleted-list"><li style="list-style-type:circle">Tiểu thuyết <strong>khoa học viễn tưởng</strong>: <a href="https://g.co/kgs/Q7UenVZ"><span style="border-bottom:0.05em solid">Harry Potter</span></a> series bởi J.K.Rowling, <a href="https://g.co/kgs/rdq2SBP"><span style="border-bottom:0.05em solid">The</span></a> <a href="https://g.co/kgs/rdq2SBP"><span style="border-bottom:0.05em solid">Lord of the Rings</span></a> bởi J. R. R. Tolkien, <a href="https://g.co/kgs/FpzaoHY"><span style="border-bottom:0.05em solid">Percy Jackson &amp; the Olympians</span></a> bởi Rick Riordan, v.v.</li></ul><ul id="edd9a10a-2ec7-49ba-bcb6-4f2a291337aa" class="bulleted-list"><li style="list-style-type:circle">Tiểu thuyết <strong>tình cảm</strong>: <a href="https://g.co/kgs/RmK8cF2"><span style="border-bottom:0.05em solid">Call Me by Your Name</span></a> bởi André Aciman, <a href="https://g.co/kgs/pdSqdiJ"><span style="border-bottom:0.05em solid">The Notebook</span></a> bởi Nicholas Sparks, <a href="https://g.co/kgs/79BrTYn"><span style="border-bottom:0.05em solid">The Fault in Our Stars</span></a> bởi John Green, v.v.</li></ul><ul id="a0ca0064-fff8-451a-82f7-58fd563c7107" class="bulleted-list"><li style="list-style-type:circle">Tiểu thuyết <strong>trinh thám</strong>: <a href="https://g.co/kgs/TvD1Lt8"><span style="border-bottom:0.05em solid">Canon of Sherlock Holmes</span></a> bởi Conan Doyle, <a href="https://g.co/kgs/4BFYyYL"><span style="border-bottom:0.05em solid">Gone Girl</span></a> bởi Gillian Flynn, <a href="https://g.co/kgs/Zdm4hPX"><span style="border-bottom:0.05em solid">Crooked House</span></a> bởi Agatha Christie, v.v.</li></ul><ul id="a061fed1-a090-4c39-9804-8b0df21634c7" class="bulleted-list"><li style="list-style-type:circle">Tiểu thuyết <strong>dành cho trẻ em</strong>:<a href="https://g.co/kgs/TmV77Db"><span style="border-bottom:0.05em solid"> Charlie and the Chocolate Factory</span></a> bởi Roald Dahl, <a href="https://g.co/kgs/8ac3DBy"><span style="border-bottom:0.05em solid">Peter Pan and Wendy</span></a> bởi J. M. Barrie, <a href="https://g.co/kgs/jcXCL3z"><span style="border-bottom:0.05em solid">The Little Prince</span></a> bởi Antoine de Saint-Exupéry, <a href="https://g.co/kgs/LCpcypm"><span style="border-bottom:0.05em solid">The Wonderful Wizard of Oz</span></a> bởi L. Frank Baum, <a href="https://g.co/kgs/dcSFkgN"><span style="border-bottom:0.05em solid">Alice in Wonderland</span></a> bởi Lewis Carroll, v.v.</li></ul><ul id="05dbaf62-d78f-4ae1-9c93-e0c30bb7adbc" class="bulleted-list"><li style="list-style-type:circle">Truyện <strong>dân gian</strong>, truyện <strong>cổ tích</strong>: Cinderella, Snow White, Princess and the Frog, Beauty and the Beast, v.v.</li></ul></li></ul><ul id="c6c3fdb5-6d33-40d7-8984-617717cade59" class="bulleted-list"><li style="list-style-type:disc">Sách nói (Audio book): Kết hợp giữa đọc sách và nghe sách nói sử dụng<a href="https://www.audible.com/"> </a><a href="https://www.audible.com/"><span style="border-bottom:0.05em solid">Audible</span></a> hoặc các trang podcast trên <a href="https://open.spotify.com/"><span style="border-bottom:0.05em solid">Spotify</span></a>, <a href="https://www.youtube.com/"><span style="border-bottom:0.05em solid">Youtube</span></a>,<a href="https://www.apple.com/apple-podcasts/"> </a><a href="https://www.apple.com/apple-podcasts/"><span style="border-bottom:0.05em solid">Apple Podcasts</span></a>.<ul id="8284fe64-5f18-4348-99d9-b96d59dde9f0" class="bulleted-list"><li style="list-style-type:circle">Những người dẫn chuyện với giọng Anh-Anh dễ nghe (<a href="https://www.youtube.com/watch?v=g0qShxkuS7Q"><span style="border-bottom:0.05em solid">RP English or Posh British Accent</span></a>) như Stephen Fry, Rob Inglis, Jonathan Keeble và Michael Page.</li></ul><ul id="201fc480-a790-4090-92e8-879f6b516968" class="bulleted-list"><li style="list-style-type:circle">Những người dẫn chuyện giọng Anh-Mỹ như Cassandra Campbell, Will Patton và Kevin Kenerly.</li></ul></li></ul><h3 id="3f1f3c4b-ca81-4d9e-bc31-eb88d64af909" class=""><strong>Điện ảnh và sân khấu:</strong></h3><ul id="b146a603-6fc8-4fcc-8125-6f3188d24cff" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.youtube.com/@LearnEnglishWithTVSeries/videos"><span style="border-bottom:0.05em solid">Learn English With TV Series</span></a>: Học tiếng Anh qua phân tích phim.</li></ul><ul id="86d23e60-20e2-4fdf-8c7b-6d8596983da4" class="bulleted-list"><li style="list-style-type:disc"><a href="https://duocards.com/en/"><span style="border-bottom:0.05em solid">DuoCards - Learn languages using Flashcards</span></a>: Chủ yếu học từ vựng qua đoạn phim, tuy nhiên sẽ thấy được cách từ vựng đó được sử dụng trong ngữ cảnh như thế nào và các điểm ngữ pháp liên quan.</li></ul><ul id="8d0dee09-591f-4bc3-bc8a-2253d7762bf6" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.youtube.com/@OurChangingClimate"><span style="border-bottom:0.05em solid">Our Changing Climate</span></a>: Tập trung vào chủ đề môi trường, chủ đề này ít được đề cập đến trong tiếng Việt, nhưng thường được nhắc đến ở các nước phương tây. Học được cách sử dụng các từ vựng thông dụng và khoa học cùng với các collocations đi kèm.</li></ul><ul id="8eb7841c-1e74-4ba8-8737-0519e8f451a6" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.youtube.com/@kurzgesagt"><span style="border-bottom:0.05em solid">Kurzgesagt – In a Nutshell</span></a>: Tương tự với <a href="https://www.youtube.com/@OurChangingClimate"><span style="border-bottom:0.05em solid">Our Changing Climate</span></a> nhưng chủ đề khoa học đa dạng hơn.</li></ul><ul id="acea1e43-7f84-495d-ae12-20c33626e86c" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.youtube.com/@TEDEd/videos"><span style="border-bottom:0.05em solid">TED-Ed</span></a>: Chủ đề đa dạng nhưng với video ngắn hơn và dễ hiểu hơn.</li></ul><ul id="cb0a23d8-be39-4bed-af9e-0d1ae0e3bd13" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.youtube.com/@YaleCourses"><span style="border-bottom:0.05em solid">YaleCourses</span></a>, <a href="https://www.youtube.com/@mitocw"><span style="border-bottom:0.05em solid">MIT OpenCourseWare</span></a>, v.v.: Các khóa học từ các trường đại học lớn ở nước bản xứ không chỉ giúp học các kiến thức mới mà còn giúp người học luyện được cách sử dụng ngôn ngữ một cách thực tế nhưng học thuật hơn.</li></ul><ul id="d6f91e7e-88f2-4102-be92-fd1b384a896f" class="bulleted-list"><li style="list-style-type:disc">Các tiểu thuyết được kể trên đa phần đã được chuyển thể thành phim, ngoài kết hợp việc nghe sách nói còn có thể đọc và xem cùng một quyển sách.</li></ul><ul id="ca151a6a-0dc5-4595-9c6a-456d92770418" class="bulleted-list"><li style="list-style-type:disc">Xem các phim, kênh Youtube yêu thích của người học với phụ đề tiếng Anh để có thể dễ dàng nhận dạng được các điểm ngữ pháp người bản xứ sử dụng.</li></ul><h3 id="0abf87ab-d14b-46c5-b7d9-5d9b2421c034" class=""><strong>Âm nhạc:</strong></h3><ul id="99489635-f1c6-4513-acdc-bfc3b1a0b466" class="bulleted-list"><li style="list-style-type:disc">Tham khảo lời bài hát qua các trang như <a href="https://genius.com/"><span style="border-bottom:0.05em solid">Genius</span></a> để xem cách biểu đạt cũng như dùng từ, đặc biệt hay ở cách chơi chữ trong các bài hát so với việc đọc sách, báo.</li></ul><p id="dc2d1ad8-d4e7-4214-b6b5-6d599909751a" class="">Để hiệu quả hóa quá trình học từ các nguồn tài liệu này, việc chọn lựa các chủ đề phù hợp với sở thích là quan trọng, đặc biệt là khi nguồn tài nguyên hiện đang rất dồi dào và dễ tiếp cận. Tuy nhiên, việc chọn lọc thông tin nào là phù hợp cũng rất quan trọng, nên nhận thức rõ ràng để tránh các trường hợp gây lệch lạc tư tưởng hoặc đưa ra các thông tin nhiễu loạn.</p><p id="2443c897-9778-4233-8246-dccaf8af5d80" class="">Phương pháp học thực tế này đối với đa số người học thường đơn giản hơn so với phương pháp giảng dạy truyền thống, vì ngữ pháp được học ngay trong bối cảnh, giúp học viên hình dung dễ dàng hình dung nghĩa của câu. Tuy nhiên vì thế mà cũng có mặt trái là học viên sẽ không được “sáng tạo” bằng cách tự đề ra các câu từ của riêng mình, và cũng không thực hành được nhiều như trong môi trường học tập.</p><h2 id="48b163e7-b827-449a-9abf-274ce39af917" class=""><strong>Tổng kết &amp; Trích dẫn:</strong></h2><p id="259e7ef3-b66d-4d17-8616-b01ee7d5da65" class="">Học ngữ pháp tiếng Anh thực tế và thú vị bằng cách áp dụng Contextualized Learning. Nhấn mạnh sự khác biệt giữa tiếng Việt và tiếng Anh, và giới thiệu cách học theo chủ đề và tích hợp ngữ pháp vào cuộc sống hàng ngày. Lợi ích bao gồm cải thiện hiểu và nhớ, rèn luyện nói và viết, cùng với khả năng giải quyết vấn đề và tư duy sáng tạo. Thực hành bằng cách sử dụng tài liệu thực tế và các loại bài thực hành như biến đổi câu, phát triển câu để tạo trải nghiệm học thú vị và linh hoạt.</p><h3 id="4e1c363e-8cc3-40e8-895c-5d1af42fd64f" class=""><strong>Nguồn tham khảo</strong></h3><p id="3e2fc516-154b-4648-ac36-f3d5d4e12df2" class=""><a href="https://www.collegetransition.org/career-pathways/research-briefs/contextualized-grammar/"><span style="border-bottom:0.05em solid"><em>Kathrynn Di Tommaso. (n.d.). Contextualized Grammar Instruction for College Transition Students. National College Transition Network. https://www.collegetransition.org/career-pathways/research-briefs/contextualized-grammar/</em></span></a></p><p id="b3427d71-f0ec-4fda-a52f-7bf3a25cd22b" class=""><a href="https://www.teachingenglish.org.uk/professional-development/teachers/knowing-subject/magazine/milica-vukadin-contextual-grammar"><span style="border-bottom:0.05em solid"><em>Milica Vukadin. (n.d.). Contextual Grammar Teaching - Activities for Making Grammar Meaningful to Your Students. British Council.</em></span></a><em> </em><a href="https://www.teachingenglish.org.uk/professional-development/teachers/knowing-subject/magazine/milica-vukadin-contextual-grammar"><span style="border-bottom:0.05em solid"><em>https://www.teachingenglish.org.uk/professional-development/teachers/knowing-subject/magazine/milica-vukadin-contextual-grammar</em></span></a></p><p id="fe0ed0c1-9aad-4e71-82cb-e7b86f4ff260" class=""><a href="https://www.ijser.org/researchpaper/Learning-from-Dewey-and-Vygotsky-Perspective.pdf"><span style="border-bottom:0.05em solid"><em>Mohmmad Allazzam. (2015, July). Learning from Dewey and Vygotsky Perspective. International Journal of Scientific &amp; Engineering Research. https://www.ijser.org/researchpaper/Learning-from-Dewey-and-Vygotsky-Perspective.pdf</em></span></a></p><p id="e580e5fe-b14e-427f-ae11-d4798b8953e9" class=""><a href="http://tailieuso.udn.vn/bitstream/TTHL_125/374/92/Summary.pdf"><span style="border-bottom:0.05em solid"><em>NGUYỄN THỊ HOÀI NAM. (2011). A STUDY OF MODALITY EXPRESSED IN TERMS OF GRAMMATICALIZATION AND LEXICALIZATION IN ENGLISH AND VIETNAMESE. Tài liệu số Trung tâm Thông tin Học liệu và Truyền thông.</em></span></a><em> </em><a href="http://tailieuso.udn.vn/bitstream/TTHL_125/374/92/Summary.pdf"><span style="border-bottom:0.05em solid"><em>http://tailieuso.udn.vn/bitstream/TTHL_125/374/92/Summary.pdf</em></span></a></p><h3 id="cbbc350b-5dde-4720-9d22-bcdaba3de12e" class=""><strong>Một số bài viết khác liên quan đến việc học ngữ pháp:</strong></h3><ul id="3009d24d-3b85-4179-a931-5baf11c7a6bc" class="bulleted-list"><li style="list-style-type:disc"><a href="https://zim.vn/su-khac-biet-ngu-phap-tieng-viet-va-tieng-anh-va-nhung-loi-sai-ngu-phap-hay-gap-o-nguoi-viet-p-1"><span style="border-bottom:0.05em solid">Sự khác biệt ngữ pháp tiếng Việt và tiếng Anh và những lỗi sai ngữ pháp hay gặp ở người Việt</span></a></li></ul><ul id="a21b8fb9-3dbd-4327-a88b-fefcb4c5c389" class="bulleted-list"><li style="list-style-type:disc"><a href="https://zim.vn/cach-ghi-chep-ngu-phap-tieng-anh"><span style="border-bottom:0.05em solid">Cách ghi chép ngữ pháp tiếng Anh - Ưu &amp; nhược điểm các phương pháp</span></a></li></ul><h3 id="f5bcad7c-9dc5-4218-aa3a-3637a0171680" class=""><strong>Một số chủ đề khác cùng sử dụng phương pháp Contextualized Learning:</strong></h3><ul id="aa1ca6fc-6389-4635-a6b6-8276b5aef653" class="bulleted-list"><li style="list-style-type:disc"><a href="https://zim.vn/contextualized-learning-hoc-tu-vung-chi-so-thich"><span style="border-bottom:0.05em solid">Áp dụng phương pháp Contextualized Learning để học từ vựng chỉ sở thích</span></a></li></ul><ul id="2ad6be7c-097e-40f4-82b4-d3ac254c87e3" class="bulleted-list"><li style="list-style-type:disc"><a href="https://zim.vn/contextualized-learning-hoc-tu-vung-giao-tiep-chu-de-mua-sam"><span style="border-bottom:0.05em solid">Contextualized Learning - Học từ vựng giao tiếp chủ đề mua sắm</span></a></li></ul><p id="851e149e-c52d-40f6-bd42-f04dc4a79b67" class="">Tác giả: Đoàn Hà Phương &amp; Ngô Nhật Du</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
